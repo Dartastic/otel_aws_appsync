@@ -10,6 +10,7 @@ const _tracerName = 'dartastic_otel_libs_aws_appsync';
 APITracer _tracer() => OTelAPI.tracerProvider().getTracer(_tracerName);
 
 class AwsAppSyncResult {
+  /// Creates a result.
   const AwsAppSyncResult({
     this.region,
     this.apiId,
@@ -93,8 +94,13 @@ class AwsAppSyncResult {
   final int? statusCode;
 }
 
+/// What a traced call returned: the value for the caller plus fields
+/// recorded on the span.
 class AwsAppSyncCallResult<T> {
+  /// Creates a call result.
   const AwsAppSyncCallResult({required this.value, this.result});
+
+  /// The value returned to the caller.
   final T value;
   final AwsAppSyncResult? result;
 }
