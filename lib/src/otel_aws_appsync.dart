@@ -1,13 +1,13 @@
-// Licensed under the Dartastic Pro Software License Agreement.
+// Licensed under the Apache License, Version 2.0
 // Copyright 2025-2026 Mindful Software LLC d/b/a Dartastic.io, All rights reserved.
 
-import 'package:dartastic_opentelemetry/dartastic_opentelemetry.dart';
+import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 
 import 'otel_aws_appsync_suppression.dart';
 
 const _tracerName = 'dartastic_otel_libs_aws_appsync';
 
-Tracer _tracer() => OTel.tracerProvider().getTracer(_tracerName);
+APITracer _tracer() => OTelAPI.tracerProvider().getTracer(_tracerName);
 
 class AwsAppSyncResult {
   const AwsAppSyncResult({
@@ -128,7 +128,7 @@ Future<T> tracedAwsAppSync<T>({
   final span = _tracer().startSpan(
     'aws_appsync $operation',
     kind: SpanKind.client,
-    attributes: OTel.attributesFromMap(m),
+    attributes: OTelAPI.attributesFromMap(m),
   );
   try {
     final r = await invoke();
@@ -136,55 +136,55 @@ Future<T> tracedAwsAppSync<T>({
       final res = r.result!;
       final extras = <Attribute<Object>>[];
       if (res.region != null) {
-        extras.add(OTel.attributeString('aws_appsync.region', res.region!));
+        extras.add(OTelAPI.attributeString('aws_appsync.region', res.region!));
       }
       if (res.apiId != null) {
-        extras.add(OTel.attributeString('aws_appsync.api.id', res.apiId!));
+        extras.add(OTelAPI.attributeString('aws_appsync.api.id', res.apiId!));
       }
       if (res.apiKind != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_appsync.api.kind',
           res.apiKind!,
         ));
       }
       if (res.authMode != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_appsync.auth.mode',
           res.authMode!,
         ));
       }
       if (res.graphqlOperation != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_appsync.graphql.operation',
           res.graphqlOperation!,
         ));
       }
       if (res.operationName != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_appsync.graphql.operation_name',
           res.operationName!,
         ));
       }
       if (res.complexity != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'aws_appsync.graphql.complexity',
           res.complexity!,
         ));
       }
       if (res.depth != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'aws_appsync.graphql.depth',
           res.depth!,
         ));
       }
       if (res.fieldCount != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'aws_appsync.graphql.field_count',
           res.fieldCount!,
         ));
       }
       if (res.errorCount != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'aws_appsync.graphql.error_count',
           res.errorCount!,
         ));
@@ -196,80 +196,80 @@ Future<T> tracedAwsAppSync<T>({
         }
       }
       if (res.cacheHit != null) {
-        extras.add(OTel.attributeBool(
+        extras.add(OTelAPI.attributeBool(
           'aws_appsync.cache.hit',
           res.cacheHit!,
         ));
       }
       if (res.cacheTtlSec != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'aws_appsync.cache.ttl_sec',
           res.cacheTtlSec!,
         ));
       }
       if (res.dataSource != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_appsync.data_source',
           res.dataSource!,
         ));
       }
       if (res.dataSourceKind != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_appsync.data_source.kind',
           res.dataSourceKind!,
         ));
       }
       if (res.resolverKind != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_appsync.resolver.kind',
           res.resolverKind!,
         ));
       }
       if (res.resolverRuntime != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_appsync.resolver.runtime',
           res.resolverRuntime!,
         ));
       }
       if (res.realtimeProtocol != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_appsync.realtime.protocol',
           res.realtimeProtocol!,
         ));
       }
       if (res.subscriptionId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_appsync.subscription.id',
           res.subscriptionId!,
         ));
       }
       if (res.requestBytes != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'aws_appsync.request.bytes',
           res.requestBytes!,
         ));
       }
       if (res.responseBytes != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'aws_appsync.response.bytes',
           res.responseBytes!,
         ));
       }
       if (res.errorType != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_appsync.error.type',
           res.errorType!,
         ));
         span.setStatus(SpanStatusCode.Error, 'AppSync ${res.errorType}');
       }
       if (res.errorMessage != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_appsync.error.message',
           res.errorMessage!,
         ));
       }
       if (res.statusCode != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'http.response.status_code',
           res.statusCode!,
         ));
@@ -280,13 +280,13 @@ Future<T> tracedAwsAppSync<T>({
           );
         }
       }
-      if (extras.isNotEmpty) span.addAttributes(OTel.attributes(extras));
+      if (extras.isNotEmpty) span.addAttributes(OTelAPI.attributes(extras));
     }
     return r.value;
   } catch (e, st) {
-    span.addAttributes(OTel.attributes([
-      OTel.attributeString(
-        ErrorResource.errorType.key,
+    span.addAttributes(OTelAPI.attributes([
+      OTelAPI.attributeString(
+        ErrorAttributes.errorType.key,
         e.runtimeType.toString(),
       ),
     ]));
